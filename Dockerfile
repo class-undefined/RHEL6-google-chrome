@@ -1,6 +1,6 @@
 # 使用Ubuntu作为基础镜像
-FROM ubuntu:latest
-COPY ./res/sources.list /etc/apt/sources.list.d/ubuntu.sources
+FROM ubuntu:22.04
+COPY ./res/sources.list /etc/apt/sources.list
 # 预发布软件源，不建议启用
 # deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-proposed main restricted universe multiverse
 # # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-proposed main restricted universe multiverse
@@ -20,8 +20,13 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
     echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list && \
     apt-get update && apt-get install -y google-chrome-stable --no-install-recommends
 
-# 清理缓存以减小镜像大小
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+# RUN wget https://www.klayout.org/downloads/Ubuntu-20/klayout_0.29.1-1_amd64.deb
+# RUN apt-get install -y git qt5-default \ 
+#     && dpkg -i klayout_0.29.1-1_amd64.deb \
+#     && apt-get install -f \
+#     && rm klayout_0.29.1-1_amd64.deb
+
 
 RUN groupadd -r chrome && \
     useradd -r -g chrome -G audio,video chrome && \

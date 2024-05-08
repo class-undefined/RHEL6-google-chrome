@@ -8,4 +8,5 @@ docker run -v /tmp/.X11-unix:/tmp/.X11-unix \
             --net=host \
             --rm \
             --name google-chrome \
-            google-chrome
+            classundefined/google-chrome:latest
+
