@@ -23,6 +23,13 @@ COPY ./res/google-chrome.repo /etc/yum.repos.d/google-chrome.repo
 
 RUN yum install -y google-chrome-stable --nogpgcheck
 
+RUN yum -y install gcc-c++ ruby libX11-devel libXrender-devel libXext-devel python-devel \
+    && wget --no-check-certificate https://www.klayout.org/downloads/CentOS_7/klayout-0.28.9-0.x86_64.rpm -P /tmp \
+    && wget --no-check-certificate https://www.klayout.org/downloads/gpg-public.key -P /tmp \
+    && gpg --import /tmp/gpg-public.key \
+    && yum localinstall -y /tmp/klayout-0.28.9-0.x86_64.rpm \
+    && rm -rf /tmp/klayout* \
+    && rm -rf /tmp/gpg-public.key
 
 # 添加非root用户以启动Chrome，因为Chrome不推荐以root权限运行
 RUN groupadd -r chrome && \
